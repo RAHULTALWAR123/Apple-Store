@@ -4,12 +4,16 @@ export const getUserOrders = async (req, res) => {
 	try {
 		const userId = req.params.userId;
         
-		// Find all orders for the specified user and populate the product details
+
 		const orders = await Order.find({ user: userId })
-			.populate("products.product", "quantity name image description price") // Customize fields based on the Product model fields
-			.sort({ createdAt: -1 }); // Sort by most recent order
+			.populate("products.product", "quantity name image description price") 
+			.sort({ createdAt: -1 }); 
+
+			if(orders.length === 0){
+				return res.status(404).json({ message: "No orders found" });
+			}
 		
-		// Send the fetched orders as response
+
 		res.status(200).json(orders);
 	} catch (error) {
 		console.error("Error fetching user orders:", error);
