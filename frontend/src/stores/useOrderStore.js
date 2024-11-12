@@ -8,7 +8,7 @@ export const useOrderStore = create((set) => ({
     loading: false,
 
     fetchAllOrders: async (userId) => {
-        set({loading: true});
+        set({loading: true, orders: []});
         try{
             const res = await axios.get(`/orders/${userId}`);
             set({orders: res.data, loading: false});
